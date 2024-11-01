@@ -17,8 +17,7 @@
     <!--Task #2-->
     <!--For each loop to display all job results, each in its own table-->
 
-    <!-- Define fragment -->
-    <div th:fragment="jobDetailsFragment(job)">
+    <div th:each="job : ${jobs}">
         <table class="job-listing">
             <tr>
                 <th>ID</th>
@@ -45,11 +44,6 @@
                 <td th:text="${job.coreCompetency}"></td>
             </tr>
         </table>
-    </div>
-
-    <!-- Use fragment -->
-    <div th:each="job : ${jobs}">
-        <div th:replace="~{:: jobDetailsFragment(${job})}"></div>
     </div>
 
 </div>

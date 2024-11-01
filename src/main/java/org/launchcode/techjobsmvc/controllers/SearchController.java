@@ -50,20 +50,25 @@ public class SearchController {
                             - required = false means that this parameter is optional. If the user leaves the search field empty or the parameter is not provided in the request, it won't cause an error, and searchTerm will be null.
                             - This is important because if the search term is empty, the method logic should display all jobs (by calling JobData.findAll()).
     */
+
     @PostMapping("results")
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam(required = false) String searchTerm) {
         ArrayList<Job> jobs;
-        // Handles cases where "searchTerm" is empty or set to "all" by calling JobData.findAll() and passing the results to the model
-        if (searchTerm == null || searchTerm.equals("all")) {
+
+        if (searchTerm == null || searchTerm.isEmpty()) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
+        } else if (searchType.equals("all")) {
+            jobs = JobData.findByValue(searchTerm);
+            model.addAttribute("title", "Jobs with: " + searchTerm);
         } else {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-            model.addAttribute("title", "Jobs with  " + searchTerm);
+            model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
         }
+
         model.addAttribute("jobs", jobs);
         model.addAttribute("columns", columnChoices);
 
         return "search";
     }
-}
+    }
