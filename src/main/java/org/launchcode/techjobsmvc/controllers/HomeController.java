@@ -12,6 +12,8 @@ import java.util.HashMap;
 @Controller
 public class HomeController {
 
+    // NOTE: Only has one handler method that pulls the index of the site. "/"....
+    //  NOTE: Displays the home page and renders a index.html file...
     @GetMapping(value = "/")
     public String index(Model model) {
 
