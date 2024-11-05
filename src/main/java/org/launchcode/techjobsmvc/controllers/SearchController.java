@@ -54,21 +54,21 @@ public class SearchController {
     @PostMapping("results")
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam(required = false) String searchTerm) {
         ArrayList<Job> jobs;
-
-        if (searchTerm == null || searchTerm.isEmpty()) {
+        if(searchTerm == null || searchTerm.equals("all") || searchTerm.isEmpty()) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
-        } else if (searchType.equals("all")) {
-            jobs = JobData.findByValue(searchTerm);
-            model.addAttribute("title", "Jobs with: " + searchTerm);
         } else {
-            jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-            model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+            // Changed to use findByColumnAndValue for specific searches
+            if (searchType.equals("all")) {
+                jobs = JobData.findByValue(searchTerm);
+                model.addAttribute("title", "Jobs with: " + searchTerm);
+            } else {
+                jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+                model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+            }
         }
-
         model.addAttribute("jobs", jobs);
         model.addAttribute("columns", columnChoices);
-
         return "search";
     }
     }
