@@ -19,7 +19,7 @@ public class Job {
         nextId++;
     }
 
-    // Initialize the id and value fields.
+    // Constructor - Initialize the id and value fields.
     public Job(String aName, Employer anEmployer, Location aLocation, PositionType aPositionType, CoreCompetency aCoreCompetency) {
         this();
         name = aName;

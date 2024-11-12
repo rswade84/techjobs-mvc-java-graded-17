@@ -13,62 +13,61 @@ import java.util.ArrayList;
 
 import static org.launchcode.techjobsmvc.controllers.ListController.columnChoices;
 
-
 /**
  * Created by LaunchCode
  */
+@Controller // Marks this class as a Spring MVC Controller (for web request and views)
+@RequestMapping("search") // All paths in this controller start with /search
 
-/*
-        NOTE1 : Currently has one method (search)
-                      Renders the search form template
+// SearchController handles
+// - 1. Display search form
+// - 2. Process search requests
+// - 3. Show search results
+// - 4. Handle different search types
 
-*/
-
-@Controller
-@RequestMapping("search")
 public class SearchController {
 
     @GetMapping(value = "")
+    // Model carries data to view
+    // Returns search.html with empty form
     public String search(Model model) {
+        // Add column choices to model for search form display
         model.addAttribute("columns", columnChoices);
         return "search";
     }
 
-    //Task 3
-    // TODO #3 - Create a handler to process a search request and render the updated search view.
-
-    /* NOTES: Model is a parameter used to pass data from the controller to the viewer.
-                     model.addAttribute() = adds data that the view (search.html) can access and display
-
-                      @RequestParam String searchType:
-                            - @RequestParam binds the value of a request parameter to the method parameter called -----> searchType which represents the type of search (e.g., "employer", "location", "skill") that the user selects in the form.
-                            - The value for searchType will be provided by the name attribute of a corresponding form field in search.html.
-
-
-                     @RequestParam(required = false) String searchTerm:
-                            - This binds the value of the search term to the method parameter called -----> searchTerm.
-                            - required = false means that this parameter is optional. If the user leaves the search field empty or the parameter is not provided in the request, it won't cause an error, and searchTerm will be null.
-                            - This is important because if the search term is empty, the method logic should display all jobs (by calling JobData.findAll()).
-    */
-
     @PostMapping("results")
-    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam(required = false) String searchTerm) {
+    // Model carries data to view
+    // RequestParam gets form data
+    // Returns search.html with results
+    public String displaySearchResults(Model model,
+                                       @RequestParam String searchType,
+                                       @RequestParam(required = false) String searchTerm) {
         ArrayList<Job> jobs;
+
+        // Handle empty, null, or "all" search terms
         if(searchTerm == null || searchTerm.equals("all") || searchTerm.isEmpty()) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
-            // Changed to use findByColumnAndValue for specific searches
+            // Handle specific search types
             if (searchType.equals("all")) {
+                // Search across all fields
                 jobs = JobData.findByValue(searchTerm);
                 model.addAttribute("title", "Jobs with: " + searchTerm);
             } else {
+                // Search in specific column
                 jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-                model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+                model.addAttribute("title", "Jobs with " +
+                        columnChoices.get(searchType) + ": " + searchTerm);
             }
         }
+
+        // Add results and columns to model for display
         model.addAttribute("jobs", jobs);
         model.addAttribute("columns", columnChoices);
+
+        // This returns search.html from above
         return "search";
     }
-    }
+}

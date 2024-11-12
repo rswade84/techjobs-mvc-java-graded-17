@@ -9,19 +9,25 @@ import java.util.HashMap;
 /**
  * Created by LaunchCode
  */
-@Controller
-public class HomeController {
+@Controller  // Marks this class as a Spring MVC Controller,(for web request and views)
 
-    // NOTE: Only has one handler method that pulls the index of the site. "/"....
-    //  NOTE: Displays the home page and renders a index.html file...
+    // HomeController handles
+            // - 1. Main entry point.
+            // - 2. Setup Navigation Options
+            // - 3. Pass navigation to view
+
+public class HomeController {
     @GetMapping(value = "/")
+
     public String index(Model model) {
 
+        // This creates a HashMap for navigation options (search & list)
         HashMap<String, String> actionChoices = new HashMap<>();
-        actionChoices.put("search", "Search");
-        actionChoices.put("list", "List");
+        actionChoices.put("search", "Search"); // What is this doing?
+        actionChoices.put("list", "List"); // What is this doing?
 
-        model.addAttribute("actions", actionChoices);
+        // Pass navigation to viewer
+        model.addAttribute("actions", actionChoices); // What is this doing?
 
         return "index";
     }

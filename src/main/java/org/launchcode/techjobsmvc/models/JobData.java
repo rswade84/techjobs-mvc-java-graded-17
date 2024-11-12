@@ -23,6 +23,7 @@ import java.util.List;
      */
 public class JobData {
 
+    // Fields
     private static final String DATA_FILE = "job_data.csv";
     private static boolean isDataLoaded = false;
 

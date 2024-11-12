@@ -1,5 +1,3 @@
-// edit
-
 package org.launchcode.techjobsmvc.controllers;
 
 import org.launchcode.techjobsmvc.models.Job;
@@ -16,30 +14,30 @@ import java.util.HashMap;
 /**
  * Created by LaunchCode
  */
-
-/*
-        NOTE 1 : Contains columnChoices and tableChoices HashMaps
-        NOTE 2: Has two handler methods:
-                        Handler 1: list (displays table of job category links)
-                        Handler 2: listJobsByColumnAndValue (displays jobs for selected category)
-        NOTE 3:  The ListController passes data to list-jobs.html, specifically through the listJobsByColumnAndValue method.
-
-
-*/
 @Controller
-@RequestMapping(value = "list")
+@RequestMapping(value = "list") // All paths in this controller start with /list
+
+// ListController handles
+    // - 1. Display job listings
+    // - 2. Filter jobs by category
+    // - 3. Show all jobs option
+    // - 4. Manage column choices for display
+
 public class ListController {
 
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
+    // Constructor initializes the HashMaps when ListController is created
     public ListController() {
+        // Sets up the column names for display
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
         columnChoices.put("location", "Location");
         columnChoices.put("positionType", "Position Type");
         columnChoices.put("coreCompetency", "Skill");
 
+        // Sets up the values available for each column
         tableChoices.put("employer", JobData.getAllEmployers());
         tableChoices.put("location", JobData.getAllLocations());
         tableChoices.put("positionType", JobData.getAllPositionTypes());
@@ -47,7 +45,9 @@ public class ListController {
     }
 
     @GetMapping(value = "")
+    // Returns list.html of job categories
     public String list(Model model) {
+        // Add all necessary data to the model for display
         model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
         model.addAttribute("employers", JobData.getAllEmployers());
@@ -58,20 +58,26 @@ public class ListController {
         return "list";
     }
 
-    // Passes data to the list-job.html
     @GetMapping(value = "jobs")
-    public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam(required = false) String value) {
+
+    // Returns list-jobs.html with filtered results
+    public String listJobsByColumnAndValue(Model model,
+                                           @RequestParam String column,
+                                           @RequestParam(required = false) String value) {
         ArrayList<Job> jobs;
+
+        // Show all jobs
         if (column.equals("all")) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
+            // Filter jobs by selected column and value
             jobs = JobData.findByColumnAndValue(column, value);
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
+
         model.addAttribute("jobs", jobs);
 
         return "list-jobs";
     }
 }
-
