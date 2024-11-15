@@ -7,47 +7,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by LaunchCode
+ *  wepass static ref of HashMap, const initialize those 2 hash,
+ *
  */
+
+// Class Declaration and Annotations
 @Controller
-@RequestMapping(value = "list") // All paths in this controller start with /list
-
-// ListController handles
-    // - 1. Display job listings
-    // - 2. Filter jobs by category
-    // - 3. Show all jobs option
-    // - 4. Manage column choices for display
-
+@RequestMapping(value = "list") // base URL for all methods in this controller
 public class ListController {
 
+    // HashMaps
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
-    // Constructor initializes the HashMaps when ListController is created
+    // Constructor
     public ListController() {
-        // Sets up the column names for display
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
         columnChoices.put("location", "Location");
         columnChoices.put("positionType", "Position Type");
         columnChoices.put("coreCompetency", "Skill");
 
-        // Sets up the values available for each column
         tableChoices.put("employer", JobData.getAllEmployers());
         tableChoices.put("location", JobData.getAllLocations());
         tableChoices.put("positionType", JobData.getAllPositionTypes());
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
 
+    // Instance Methods (belongs to the object/instance class, not class itself)
     @GetMapping(value = "")
-    // Returns list.html of job categories
     public String list(Model model) {
-        // Add all necessary data to the model for display
         model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
         model.addAttribute("employers", JobData.getAllEmployers());
@@ -58,15 +52,14 @@ public class ListController {
         return "list";
     }
 
-    @GetMapping(value = "jobs")
+    // RequestParam - binds web request to method parameters
 
-    // Returns list-jobs.html with filtered results
+    @GetMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model,
                                            @RequestParam String column,
                                            @RequestParam(required = false) String value) {
         ArrayList<Job> jobs;
 
-        // Show all jobs
         if (column.equals("all")) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");

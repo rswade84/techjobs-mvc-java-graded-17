@@ -4,22 +4,24 @@ import java.util.Objects;
 
 public class Job {
 
+    // Unique id
     private int id;
     private static int nextId = 1;
 
+    // Core job properties
     private String name;
     private Employer employer;
     private Location location;
     private PositionType positionType;
     private CoreCompetency coreCompetency;
 
-    // Initialize a unique ID.
+    // Default constructor - Initialize unique ID
     public Job() {
         id = nextId;
         nextId++;
     }
 
-    // Constructor - Initialize the id and value fields.
+    // Main Constructor - Initialize the id and value fields.
     public Job(String aName, Employer anEmployer, Location aLocation, PositionType aPositionType, CoreCompetency aCoreCompetency) {
         this();
         name = aName;
@@ -32,23 +34,29 @@ public class Job {
     // Custom toString method.
     @Override
     public String toString(){
+        // Data validation
         String output = "";
         if (name.equals("")){
             name = "Data not available";
         }
+        // Check employer
         if (employer.getValue().equals("") || employer.getValue() == null){
             employer.setValue("Data not available");
         }
+        // Check location
         if (location.getValue().equals("") || location.getValue() == null){
             location.setValue("Data not available");
         }
+        // Check core comp
         if (coreCompetency.getValue().equals("") || coreCompetency.getValue() == null){
             coreCompetency.setValue("Data not available");
         }
+        // Check position type
         if (positionType.getValue().equals("") || positionType.getValue() == null){
             positionType.setValue("Data not available");
         }
 
+        // %s - is a format placeholder. % (format) s (replace with string)
         output = String.format("\nID: %d\n" +
                 "Name: %s\n" +
                 "Employer: %s\n" +

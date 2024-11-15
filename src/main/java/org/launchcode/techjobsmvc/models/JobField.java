@@ -2,25 +2,25 @@ package org.launchcode.techjobsmvc.models;
 
 import java.util.Objects;
 
+// Class Declaration
 public abstract class JobField {
     private int id;
     private static int nextId = 1;
     private String value;
 
-    // Constructor assigns a unique ID number to each new object.
+    // Constructor assigns a unique ID
     public JobField() {
         id = nextId;
         nextId++;
     }
 
-    // Constructor that takes a string as a parameter and assigns it to the 'value' field, and also
-    // calls the empty constructor in order to initialize the 'id' field.
+    // Constructor assigns given string value
     public JobField(String value) {
-        this();
+        this(); // Calls no-arg constructor to initialize ID
         this.value = value;
     }
 
-    // Custom toString() method that returns the data stored in 'value'.
+    // Custom toString() method, returns data stored in 'value'.
     @Override
     public String toString() {
         return value;

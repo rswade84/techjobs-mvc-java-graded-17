@@ -21,12 +21,15 @@ import java.util.List;
     /* JobData class serves the same purpose as before—it reads data from the job_data.csv
     file and stores it in a format we can use.
      */
+
+// Class Declaration
 public class JobData {
 
-    // Fields
+    // File location
     private static final String DATA_FILE = "job_data.csv";
     private static boolean isDataLoaded = false;
 
+    // Data Storage ArrayLists
     private static ArrayList<Job> allJobs;
     private static ArrayList<Employer> allEmployers = new ArrayList<>();
     private static ArrayList<Location> allLocations = new ArrayList<>();
@@ -39,11 +42,9 @@ public class JobData {
      */
 
     public static ArrayList<Job> findAll() {
-
         // load data, if not already loaded
         loadData();
 
-        // Bonus mission; normal version returns allJobs
         return new ArrayList<>(allJobs);
     }
 
@@ -56,13 +57,11 @@ public class JobData {
      * @param column Job field that should be searched.
      * @param value Value of the field to search for.
      * @return List of all jobs matching the criteria.
+     *  Search all, Search all within column, Search specific column for a value
      */
     public static ArrayList<Job> findByColumnAndValue(String column, String value) {
-
-        // load data, if not already loaded
-        loadData();
-
-        ArrayList<Job> jobs = new ArrayList<>();
+        loadData(); // Make sure data is loaded from the csv
+        ArrayList<Job> jobs = new ArrayList<>(); // to store results form searches
 
         if (value.toLowerCase().equals("all")){
             return findAll();
@@ -72,12 +71,11 @@ public class JobData {
             jobs = findByValue(value);
             return jobs;
         }
+
         for (Job job : allJobs) {
-
             String aValue = getFieldValue(job, column);
-
             if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
-                jobs.add(job);
+                jobs.add(job); // adds matches to our results arraylist
             }
         }
 
@@ -86,6 +84,7 @@ public class JobData {
 
     public static String getFieldValue(Job job, String fieldName){
         String theValue;
+        // Return value based on field name
         if (fieldName.equals("name")){
             theValue = job.getName();
         } else if (fieldName.equals("employer")){
@@ -106,15 +105,14 @@ public class JobData {
      * @param value The search term to look for.
      * @return      List of all jobs with at least one field containing the value.
      */
+
+    // Search all fields for term
     public static ArrayList<Job> findByValue(String value) {
-
-        // load data, if not already loaded
-        loadData();
-
-        ArrayList<Job> jobs = new ArrayList<>();
+        loadData(); // Make sure data is loaded
+        ArrayList<Job> jobs = new ArrayList<>(); // Store results in list
 
         for (Job job : allJobs) {
-
+            // Add job if value found in any field
             if (job.getName().toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(job);
             } else if (job.getEmployer().toString().toLowerCase().contains(value.toLowerCase())) {
@@ -211,6 +209,8 @@ public class JobData {
         }
     }
 
+
+    // Getters
     public static ArrayList<Employer> getAllEmployers() {
         loadData();
         allEmployers.sort(new NameSorter());
