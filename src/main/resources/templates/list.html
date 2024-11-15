@@ -1,5 +1,3 @@
-<!-- edit-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
@@ -22,20 +20,20 @@
   <tr>
     <!-- TODO #2: Complete the View Jobs By Category Table. -->
 
-    <td th:each="category : ${tableChoices}">
-      <ul>
-        <li th:each="item : ${category.value}">
-          <a th:href="@{/list/jobs(column=${category.key},value=${item})}" th:text="${item}"></a>
-        </li>
-      </ul>
-    </td>
-
     <!-- NOTE: Added 'View All' link for displaying all jobs -->
     <td>
       <ul>
         <li>
           <!-- Link for all jobs -->
-          <a th:href="@{/list/jobs(column='all', value='all')}" th:text="'All'"></a>
+          <a th:href="@{/list/jobs(column=all)}">View All</a>
+        </li>
+      </ul>
+    </td> <!-- Feel free to remove or modify this element if necessary. -->
+
+    <td th:each="category : ${tableChoices}">
+      <ul>
+        <li th:each="item : ${category.value}">
+          <a th:href="@{/list/jobs(column=${category.key},value=${item})}" th:text="${item}"></a>
         </li>
       </ul>
     </td>
