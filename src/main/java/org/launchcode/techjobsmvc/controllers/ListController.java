@@ -23,11 +23,11 @@ import java.util.HashMap;
 @RequestMapping(value = "list") // base URL for all methods in this controller
 public class ListController {
 
-    // HashMaps
+    // Create HashMaps to store navigation options
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
-    // Constructor, .put() method
+    // Assign HashMaps using .put() to display nav options
     public ListController() {
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
@@ -41,7 +41,7 @@ public class ListController {
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
 
-    // Instance Methods - model.add()
+    // Instance Methods - to add HashMap to view via model.add()
     @GetMapping(value = "")
     public String list(Model model) {
         model.addAttribute("columns", columnChoices);

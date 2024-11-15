@@ -22,7 +22,7 @@ import static org.launchcode.techjobsmvc.controllers.ListController.columnChoice
 @RequestMapping("search")
 public class SearchController {
 
-    // Handler Methods - model.add()
+    // Handler Methods - Add to view with model.add()
     @GetMapping(value = "")
     public String search(Model model) {
         model.addAttribute("columns", columnChoices);
