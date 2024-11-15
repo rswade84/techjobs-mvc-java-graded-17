@@ -12,8 +12,10 @@ import java.util.HashMap;
 
 /**
  * Created by LaunchCode
- *  wepass static ref of HashMap, const initialize those 2 hash,
- *
+ *  wepass static ref of HashMap, constructor initialize those 2 hash,
+ *   Display job listings, Filter jobs by category
+ *   Show all jobs option, Manage column choices for display
+ *-
  */
 
 // Class Declaration and Annotations
@@ -25,7 +27,7 @@ public class ListController {
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
-    // Constructor
+    // Constructor, .put() method
     public ListController() {
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
@@ -39,7 +41,7 @@ public class ListController {
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
 
-    // Instance Methods (belongs to the object/instance class, not class itself)
+    // Instance Methods - model.add()
     @GetMapping(value = "")
     public String list(Model model) {
         model.addAttribute("columns", columnChoices);

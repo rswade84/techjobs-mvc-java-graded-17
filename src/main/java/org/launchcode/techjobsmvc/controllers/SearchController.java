@@ -22,7 +22,7 @@ import static org.launchcode.techjobsmvc.controllers.ListController.columnChoice
 @RequestMapping("search")
 public class SearchController {
 
-    // Instance Methods
+    // Handler Methods - model.add()
     @GetMapping(value = "")
     public String search(Model model) {
         model.addAttribute("columns", columnChoices);
@@ -34,7 +34,6 @@ public class SearchController {
                                        @RequestParam String searchType,
                                        @RequestParam(required = false) String searchTerm) {
 
-        // Method implementation
         ArrayList<Job> jobs;
 
         if(searchTerm == null || searchTerm.equals("all") || searchTerm.isEmpty()) {
