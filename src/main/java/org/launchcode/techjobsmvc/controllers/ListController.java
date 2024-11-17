@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Created by LaunchCode
  *  wepass static ref of HashMap, constructor initialize those 2 hash,
  *   Display job listings, Filter jobs by category
- *   Show all jobs option, Manage column choices for display
+ *   Shows all jobs option, Manage column choices for display
  *-
  */
 
@@ -23,11 +23,11 @@ import java.util.HashMap;
 @RequestMapping(value = "list") // base URL for all methods in this controller
 public class ListController {
 
-    // Create HashMaps to store navigation options
+    // HashMaps
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
-    // Assign HashMaps using .put() to display nav options
+    // Constructor Store Nav in HashMaps
     public ListController() {
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
@@ -54,8 +54,6 @@ public class ListController {
         return "list";
     }
 
-    // RequestParam - binds web request to method parameters
-
     @GetMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model,
                                            @RequestParam String column,
@@ -66,7 +64,6 @@ public class ListController {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
-            // Filter jobs by selected column and value
             jobs = JobData.findByColumnAndValue(column, value);
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }

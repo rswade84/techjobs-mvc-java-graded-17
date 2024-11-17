@@ -15,16 +15,13 @@ import java.util.HashMap;
 public class HomeController {
     @GetMapping(value = "/")
 
-    // Creates HashMap to store navigation options
     public String index(Model model) {
         HashMap<String, String> actionChoices = new HashMap<>();
         actionChoices.put("search", "Search");
         actionChoices.put("list", "List");
 
-        // Adds the HashMap to the model to view
         model.addAttribute("actions", actionChoices);
 
-        // Returns the name of the view template to render
         return "index";
     }
 }

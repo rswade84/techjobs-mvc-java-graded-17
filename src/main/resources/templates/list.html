@@ -12,6 +12,7 @@
 </div>
 
 <table class="centeredTable">
+  <!-- Headers: Uses columnChoices HashMap -->
   <tr>
     <th:block th:each="column : ${columns}">
       <th th:text = "${column.value}"></th>
@@ -30,6 +31,7 @@
       </ul>
     </td> <!-- Feel free to remove or modify this element if necessary. -->
 
+    <!-- Content: Uses tableChoices HashMap -->
     <td th:each="category : ${tableChoices}">
       <ul>
         <li th:each="item : ${category.value}">

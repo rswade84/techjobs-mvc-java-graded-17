@@ -14,7 +14,7 @@ import static org.launchcode.techjobsmvc.controllers.ListController.columnChoice
 /**
  * Created by LaunchCode
  * Display search form, Process search requests,
- * Show search results, Handle different search types
+ * Shows search results, Handle different search types
  */
 
 // Class Declaration & Annotations
@@ -36,15 +36,16 @@ public class SearchController {
 
         ArrayList<Job> jobs;
 
+        // Search Type: empty
         if(searchTerm == null || searchTerm.equals("all") || searchTerm.isEmpty()) {
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
-            if (searchType.equals("all")) {
+            if (searchType.equals("all")) { // Search Type: all
                 jobs = JobData.findByValue(searchTerm);
                 model.addAttribute("title", "Jobs with: " + searchTerm);
             } else {
-                jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+                jobs = JobData.findByColumnAndValue(searchType, searchTerm); // Search Type: specific term
                 model.addAttribute("title", "Jobs with " +
                         columnChoices.get(searchType) + ": " + searchTerm);
             }
